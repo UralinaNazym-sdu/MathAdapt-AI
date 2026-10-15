@@ -2,6 +2,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { GoogleGenAI } from '@google/genai'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { validateLinearProblem } from './linearMath.js'
 
 dotenv.config()
@@ -116,6 +118,22 @@ Requirements:
 })
 
 
-app.listen(3001, () => {
-  console.log('AI Server running at http://localhost:3001')
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '..', 'dist')
+
+  app.use(express.static(distPath))
+
+  app.get('/{*splat}', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'))
+  })
+}
+
+const PORT = process.env.PORT || 3001
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`MathAdapt AI running on port ${PORT}`)
 })
