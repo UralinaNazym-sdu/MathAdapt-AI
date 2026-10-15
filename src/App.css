@@ -1,0 +1,631 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(97, 122, 255, 0.18), transparent 30%),
+    linear-gradient(180deg, #eef3ff 0%, #f8fbff 100%);
+  color: #16213e;
+}
+
+.header {
+  background: linear-gradient(135deg, #173a8a, #244eb3);
+  color: white;
+  padding: 20px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 30px rgba(15, 40, 105, 0.18);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-box {
+  width: 74px;
+  height: 74px;
+  background: white;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.sdu-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: white;
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 4px;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.main {
+  width: 90%;
+  max-width: 1180px;
+  margin: 42px auto 50px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.hero-left,
+.hero-right {
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 18px 45px rgba(23, 44, 92, 0.08);
+}
+
+.hero-left {
+  padding: 42px;
+}
+
+.hero-right {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: #3b60da;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.12;
+  margin: 0 0 18px 0;
+  color: #15284d;
+}
+
+.hero p {
+  color: #67758f;
+  line-height: 1.8;
+  font-size: 17px;
+  margin: 0;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hero-tags span {
+  background: #edf2ff;
+  color: #3050ba;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.info-card {
+  background: linear-gradient(180deg, #f7faff, #eef4ff);
+  border: 1px solid #dbe6ff;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.info-card h3 {
+  margin: 0 0 10px 0;
+  color: #18336e;
+  font-size: 18px;
+}
+
+.info-card p {
+  margin: 0;
+  color: #66748d;
+  line-height: 1.7;
+}
+
+.learning-card {
+  background: white;
+  border-radius: 28px;
+  padding: 34px;
+  box-shadow: 0 18px 45px rgba(23, 44, 92, 0.08);
+}
+
+.learning-card h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #15284d;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #72809a;
+  line-height: 1.7;
+}
+
+.levels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.level {
+  background: #f8fbff;
+  border: 2px solid #e2eafa;
+  border-radius: 20px;
+  padding: 24px 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #223350;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.level:hover {
+  transform: translateY(-3px);
+  border-color: #aac0ff;
+  box-shadow: 0 12px 24px rgba(67, 103, 216, 0.12);
+}
+
+.level.active {
+  border-color: #3f63d8;
+  background: #edf3ff;
+  box-shadow: 0 12px 24px rgba(67, 103, 216, 0.16);
+}
+
+.level-icon {
+  font-size: 30px;
+}
+
+.level strong {
+  font-size: 17px;
+}
+
+.level small {
+  color: #7a879d;
+  line-height: 1.5;
+}
+
+.problem-box {
+  background: linear-gradient(180deg, #f8fbff, #f2f7ff);
+  border: 1px solid #e0e8f7;
+  border-radius: 24px;
+  padding: 30px;
+}
+
+.problem-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8a95ab;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.difficulty {
+  background: #dfe9ff;
+  color: #3153b8;
+  padding: 9px 14px;
+  border-radius: 999px;
+}
+
+.problem-box h3 {
+  margin-top: 24px;
+  font-size: 22px;
+  color: #182a4d;
+}
+
+.equation {
+  text-align: center;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 800;
+  padding: 30px 10px;
+  margin: 20px 0 24px;
+  background: white;
+  border: 1px solid #e2e9f6;
+  border-radius: 18px;
+  color: #15284d;
+}
+
+.problem-box label {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.problem-box input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #d7e0ef;
+  background: white;
+  border-radius: 14px;
+  font-size: 16px;
+  outline: none;
+}
+
+.problem-box input:focus {
+  border-color: #4466cc;
+  box-shadow: 0 0 0 4px rgba(68, 102, 204, 0.1);
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #2e5bd1, #4a73ea);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(46, 91, 209, 0.2);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.action-buttons button {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid #dae3f3;
+  background: white;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #33415f;
+  font-weight: 600;
+}
+
+.feedback,
+.help-box {
+  background: #ebf2ff;
+  border-left: 5px solid #4466cc;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+  color: #274487;
+}
+
+.help-box p {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  color: #7f8aa2;
+  font-size: 14px;
+  padding: 30px 20px 40px;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .levels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .header {
+    padding: 16px 5%;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .brand {
+    flex-direction: column;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .main {
+    margin: 24px auto 40px;
+  }
+
+  .hero-left,
+  .hero-right,
+  .learning-card {
+    padding: 22px;
+  }
+
+  .problem-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+/* STUDENT REGISTRATION PAGE */
+
+.welcome-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 6%;
+  background: linear-gradient(135deg, #102958, #2350ab 65%, #456fe0);
+}
+
+.welcome-layout {
+  width: 100%;
+  max-width: 1150px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 65px;
+  align-items: center;
+}
+
+.welcome-info {
+  color: white;
+}
+
+.welcome-logo {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  background: white;
+  padding: 10px;
+  border-radius: 22px;
+  margin-bottom: 30px;
+}
+
+.welcome-tag {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #a8c3ff;
+  margin-bottom: 20px;
+}
+
+.welcome-info h1 {
+  color: white;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.12;
+  margin-bottom: 25px;
+}
+
+.welcome-info p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #d3dff8;
+  max-width: 550px;
+}
+
+.welcome-features {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 35px;
+  color: #e4ecff;
+  font-weight: 600;
+}
+
+.registration-card {
+  background: white;
+  border-radius: 26px;
+  padding: 42px;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-icon {
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.registration-card h2 {
+  font-size: 29px;
+  color: #172c58;
+  margin: 0 0 12px;
+}
+
+.registration-subtitle {
+  color: #78849b;
+  line-height: 1.7;
+  margin: 0 0 30px;
+}
+
+.registration-card label {
+  color: #283955;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.registration-card input,
+.registration-card select {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #dce4f0;
+  background: white;
+  color: #1b2942;
+  border-radius: 12px;
+  margin-bottom: 23px;
+  font-size: 15px;
+  outline: none;
+}
+
+.registration-card input:focus,
+.registration-card select:focus {
+  border-color: #4066d7;
+  box-shadow: 0 0 0 3px rgba(64, 102, 215, 0.12);
+}
+
+.registration-button {
+  width: 100%;
+  padding: 17px;
+  background: linear-gradient(135deg, #2148a2, #436ce0);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.registration-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(33, 72, 162, 0.2);
+}
+
+.registration-note {
+  font-size: 12px;
+  text-align: center;
+  color: #929bad;
+  margin: 18px 0 0;
+}
+
+.registration-error {
+  color: #c52d47;
+  font-size: 14px;
+}
+
+@media (max-width: 850px) {
+  .welcome-layout {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .welcome-info {
+    text-align: center;
+  }
+
+  .welcome-info p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .welcome-features {
+    align-items: center;
+  }
+
+  .registration-card {
+    padding: 27px;
+  }
+
+  .welcome-info h1 {
+    font-size: 36px;
+  }
+}
+
+.student-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+  font-size: 14px;
+}
+
+.student-header button {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.student-header button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 700px) {
+  .student-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* AI GENERATION BUTTON */
+
+.generate-btn {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #3f63d8;
+  border-radius: 14px;
+  background: white;
+  color: #3155c2;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 22px;
+  transition: 0.2s;
+}
+
+.generate-btn:hover {
+  background: #edf3ff;
+  transform: translateY(-2px);
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
