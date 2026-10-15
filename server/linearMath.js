@@ -1,7 +1,9 @@
 
 import { parse } from 'mathjs'
 
-// Represent an expression as a*x + b
+const EPS = 1e-10
+
+// Convert an expression to a*x + b.
 function coefficients(node) {
   if (node.isParenthesisNode) {
     return coefficients(node.content)
@@ -39,30 +41,31 @@ function coefficients(node) {
       return [-args[0][0], -args[0][1]]
     }
 
-    return [
-      args[0][0] - args[1][0],
-      args[0][1] - args[1][1]
-    ]
+    return args.slice(1).reduce(
+      ([a, b], [c, d]) => [a - c, b - d],
+      args[0]
+    )
   }
 
   if (node.op === '*') {
     return args.reduce(([a, b], [c, d]) => {
-      if (Math.abs(a * c) > 1e-12) {
+      if (Math.abs(a * c) > EPS) {
         throw new Error('Nonlinear equation')
       }
 
-      return [
-        a * d + b * c,
-        b * d
-      ]
+      return [a * d + b * c, b * d]
     }, [0, 1])
   }
 
   if (node.op === '/') {
+    if (args.length !== 2) {
+      throw new Error('Unsupported division')
+    }
+
     const [a, b] = args[0]
     const [c, d] = args[1]
 
-    if (Math.abs(c) > 1e-12 || Math.abs(d) < 1e-12) {
+    if (Math.abs(c) > EPS || Math.abs(d) < EPS) {
       throw new Error('Unsupported division')
     }
 
@@ -72,19 +75,46 @@ function coefficients(node) {
   throw new Error('Unsupported operation')
 }
 
-export function validateLinearProblem(problem) {
+function cleanNumber(value) {
+  if (!Number.isFinite(value)) {
+    throw new Error('Invalid calculation')
+  }
+
+  if (Math.abs(value) < EPS) return 0
+
+  return Number(value.toPrecision(12))
+}
+
+function variableTerm(a) {
+  const value = cleanNumber(a)
+
+  if (value === 0) return '0'
+  if (value === 1) return 'x'
+  if (value === -1) return '-x'
+
+  return `${value}x`
+}
+
+function expression(a, b) {
+  const x = cleanNumber(a)
+  const constant = cleanNumber(b)
+
+  if (x === 0) return String(constant)
+  if (constant === 0) return variableTerm(x)
+
+  const sign = constant < 0 ? '-' : '+'
+
+  return `${variableTerm(x)} ${sign} ${Math.abs(constant)}`
+}
+
+export function validateLinearProblem(problem, level = 'standard') {
   if (
     !problem ||
     typeof problem.question !== 'string' ||
     typeof problem.answer !== 'number' ||
     !Number.isFinite(problem.answer) ||
     typeof problem.hint !== 'string' ||
-    !problem.hint.trim() ||
-    !Array.isArray(problem.steps) ||
-    problem.steps.length === 0 ||
-    !problem.steps.every(
-      step => typeof step === 'string' && step.trim()
-    )
+    !problem.hint.trim()
   ) {
     throw new Error('Invalid problem format')
   }
@@ -96,7 +126,6 @@ export function validateLinearProblem(problem) {
     )
     .trim()
 
-  // Only simple linear equation characters are allowed.
   if (!/^[0-9xX+\-*/().=\s]+$/.test(equation)) {
     throw new Error('Unsupported equation format')
   }
@@ -104,7 +133,7 @@ export function validateLinearProblem(problem) {
   const parts = equation.toLowerCase().split('=')
 
   if (parts.length !== 2) {
-    throw new Error('Equation must contain one equals sign')
+    throw new Error('Equation must have exactly one equals sign')
   }
 
   const [leftA, leftB] = coefficients(parse(parts[0]))
@@ -116,7 +145,7 @@ export function validateLinearProblem(problem) {
   if (
     !Number.isFinite(a) ||
     !Number.isFinite(b) ||
-    Math.abs(a) < 1e-10
+    Math.abs(a) < EPS
   ) {
     throw new Error('Equation has no unique solution')
   }
@@ -124,19 +153,63 @@ export function validateLinearProblem(problem) {
   const correctAnswer = b / a
 
   if (!Number.isFinite(correctAnswer)) {
-    throw new Error('Invalid calculated answer')
+    throw new Error('Invalid answer')
   }
 
-  if (
-    Math.abs(problem.answer - correctAnswer) >
-    1e-6 * Math.max(1, Math.abs(correctAnswer))
-  ) {
-    throw new Error('Gemini generated an incorrect answer')
+  const tolerance = 1e-6 * Math.max(1, Math.abs(correctAnswer))
+
+  if (Math.abs(problem.answer - correctAnswer) > tolerance) {
+    throw new Error('Incorrect generated answer')
+  }
+
+  // Build algebraic steps from verified coefficients.
+  // Do not trust unverified AI-generated solution steps.
+  const simplified =
+    `${expression(leftA, leftB)} = ${expression(rightA, rightB)}`
+
+  const collected =
+    `${variableTerm(a)} = ${cleanNumber(b)}`
+
+  const finalStep = `x = ${cleanNumber(correctAnswer)}`
+
+  let steps
+  let hint
+
+  if (level === 'foundation') {
+    steps = [
+      `Start with: ${equation}`,
+      `Simplify both sides: ${simplified}`,
+      `Move the x terms to one side and constants to the other: ${collected}`,
+      `Divide by ${cleanNumber(a)}: ${finalStep}`
+    ]
+
+    hint = 'First simplify the equation. Then isolate x using the opposite operation.'
+
+  } else if (level === 'advanced') {
+    steps = [
+      `Expand brackets and combine like terms: ${simplified}`,
+      `Collect variable terms and constants: ${collected}`,
+      `Divide by the coefficient of x: ${finalStep}`
+    ]
+
+    hint = 'Expand brackets, combine like terms, and isolate the variable.'
+
+  } else {
+    steps = [
+      `Simplify the equation: ${simplified}`,
+      `Collect the x terms: ${collected}`,
+      `Solve for x: ${finalStep}`
+    ]
+
+    hint = 'Simplify both sides, collect variable terms, and divide by the coefficient of x.'
   }
 
   return {
-    ...problem,
+    title:
+      level.charAt(0).toUpperCase() + level.slice(1),
     question: equation,
-    answer: correctAnswer
+    answer: correctAnswer,
+    hint,
+    steps
   }
 }

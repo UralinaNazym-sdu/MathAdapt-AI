@@ -629,3 +629,15 @@ footer {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.generation-status {
+  margin: -8px 0 20px;
+  padding: 12px 16px;
+  background: #edf3ff;
+  border: 1px solid #d5e2ff;
+  border-radius: 12px;
+  color: #244a9b;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
